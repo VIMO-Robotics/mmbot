@@ -1,0 +1,8 @@
+<launch>
+
+  <!-- Do not remove this -->
+  <include file="$(find sis_mobile)/launch/tag_detection.launch"/>
+  <!-- TODO -->
+  <!-- You need to determine which node you wand to launch in this task -->
+
+</launch>

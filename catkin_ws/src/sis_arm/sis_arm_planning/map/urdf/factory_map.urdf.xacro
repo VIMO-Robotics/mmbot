@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+    <robot name="duckietown" xmlns:xacro="http://www.ros.org/wiki/xacro">
+        <!--Parameters-->
+        <xacro:property name="tile_width" value="0.6"/>
+
+        <!--Include the tile and tag macros-->
+        <xacro:include filename="$(find sis_arm_planning)/map/urdf/macros.urdf.xacro"/>
+
+        <link name="world"/>
+        <!--Describe the tiles-->
+        <xacro:tile x="0.5" y="0.5" rotation="0"/>
+
+        <!--Describe the tags-->
+        <xacro:tag id="1" pos="1.9 0" rotation="180" />
+        <xacro:tag id="2" pos="0.9 1.6" rotation="270" />
+        <xacro:tag id="3" pos="-0.9 1.6" rotation="270" />
+        <xacro:tag id="4" pos="-1.9 0" rotation="0" />
+        <xacro:tag id="0" pos="0 -1.6" rotation="90" />
+
+    </robot>

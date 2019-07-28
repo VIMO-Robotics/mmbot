@@ -1,0 +1,9 @@
+<launch>
+  <!-- Synchronize image -->
+  <node pkg="image_transport" type="republish" name="republish"
+    args="compressed in:=/raspicam_node/image raw out:=/raspicam_node/image"/>
+  <!-- Apriltag detection -->
+  <include file="$(find sis_mobile)/launch/apriltags.launch"/>
+  <!-- Localization -->
+  <include file="$(find sis_mobile)/launch/localization.launch"/>
+</launch>

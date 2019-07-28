@@ -1,0 +1,46 @@
+<?xml version="1.0" ?>
+<launch>
+    <arg name="raw" default="true" doc="If set to true, also publish raw image using decoder."/> 
+    <arg name="cam_info" default="true" doc="If set to true, use cam_info_reader_node to pusblish CameraInfo."/>
+    <arg name="rect" default="true" />
+
+    <!-- camera_node -->
+    <include  file="$(find pi_camera)/launch/camera_node.launch">
+    </include>
+
+
+    <!-- decoder_node -->
+    <group if="$(arg raw)">
+        <remap from="decoder_node/compressed_image" to="image/compressed"/>
+        <remap from="decoder_node/image/raw" to="image/raw"/>
+        <include file="$(find pi_camera)/launch/decoder_node.launch">
+        </include>
+    </group>
+    
+    <!-- cam_info_reader_node -->
+    <group if="$(arg cam_info)">
+        <remap from="cam_info_reader_node/camera_info" to="pi_camera/camera_info"/>
+        <remap from="cam_info_reader_node/compressed_image" to="pi_camera/image/compressed"/>
+        <include file="$(find pi_camera)/launch/cam_info_reader_node.launch">  
+        </include>
+
+        <group if="$(arg raw)">
+            <remap from="raw_cam_info_reader_node/camera_info" to="pi_camera/raw_camera_info"/>
+            <remap from="raw_cam_info_reader_node/compressed_image" to="pi_camera/image/raw"/>
+            <include file="$(find pi_camera)/launch/cam_info_reader_node.launch">
+                <arg name="node_name" value="raw_cam_info_reader_node" />
+                <arg name="image_type" value="raw" />
+            </include>
+
+            <!-- Rectification -->
+            <group if="$(arg rect)">
+                <remap from="image_raw" to="image/raw"/>
+                <remap from="camera_info" to="raw_camera_info"/>
+                <remap from="image_rect_color" to="image/rect" />
+                <include file="$(find pi_camera)/launch/image_proc_node.launch">
+                </include>
+            </group>
+        </group>
+    </group>
+
+</launch>

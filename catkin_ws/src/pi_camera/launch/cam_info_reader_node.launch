@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<launch>
+	<arg name="pkg_name" value="pi_camera"/>
+	<arg name="node_name" default="cam_info_reader_node"/>
+	<arg name="image_type" default="compressed" />
+
+	<node pkg="pi_camera" type="cam_info_reader_node.py" name="$(arg node_name)" output="screen" clear_params="true" required="true">
+		<rosparam command="load" file="$(find pi_camera)/config/camera_node.yaml"/>
+		<!-- These are special in that the configs are set as parameter and should alway obey the arg -->
+		<param name="~image_type" value="$(arg image_type)"/>
+	</node>	
+</launch>

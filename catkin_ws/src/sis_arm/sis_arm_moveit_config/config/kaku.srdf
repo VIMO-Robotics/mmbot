@@ -1,0 +1,273 @@
+<?xml version="1.0" ?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="kaku">
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="arm">
+        <joint name="arm_shoulder_pan_joint" />
+        <joint name="arm_shoulder_lift_joint" />
+        <joint name="arm_elbow_flex_joint" />
+        <joint name="arm_wrist_flex_joint" />
+        <joint name="gripper_link_joint" />
+        <chain base_link="base_link" tip_link="gripper_link" />
+    </group>
+    <group name="gripper">
+        <joint name="gripper_servo_joint" />
+        <joint name="gripper2_joint" />
+        <joint name="gripper_finger_base_joint" />
+        <joint name="gripper_joint" />
+    </group>
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <group_state name="home" group="arm">
+        <joint name="arm_elbow_flex_joint" value="1.7998" />
+        <joint name="arm_shoulder_lift_joint" value="-1.2418" />
+        <joint name="arm_shoulder_pan_joint" value="0" />
+        <joint name="arm_wrist_flex_joint" value="1.4185" />
+        <joint name="gripper_link_joint" value="0" />
+    </group_state>
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <end_effector name="gripper" parent_link="gripper_link" group="gripper" parent_group="arm" />
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="arm_elbow_flex_link" reason="Adjacent" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="arm_elbow_flex_servo_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="arm_shoulder_F3_0_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="arm_shoulder_lift_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="arm_shoulder_lift_servo_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="arm_shoulder_pan_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="arm_wrist_flex_servo_link" reason="User" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="camera_mount" reason="Never" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="caster" reason="Never" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="gripper_active2_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="gripper_active_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="gripper_finger_base_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="gripper_servo_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="left_wheel" reason="User" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="right_wheel" reason="Default" />
+    <disable_collisions link1="arm_elbow_F3_0_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="arm_elbow_flex_servo_link" reason="Adjacent" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="arm_shoulder_lift_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="arm_shoulder_lift_servo_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="arm_shoulder_pan_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="arm_wrist_F3_0_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="arm_wrist_flex_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="arm_wrist_flex_servo_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="camera_mount" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="caster" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="gripper_active2_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="gripper_active_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="gripper_finger_base_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="gripper_servo_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="left_wheel" reason="User" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="right_wheel" reason="Default" />
+    <disable_collisions link1="arm_elbow_flex_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="arm_shoulder_F3_0_link" reason="Adjacent" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="arm_shoulder_lift_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="arm_shoulder_lift_servo_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="arm_shoulder_pan_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="arm_shoulder_pan_servo_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="arm_wrist_F3_0_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="arm_wrist_flex_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="arm_wrist_flex_servo_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="camera_mount" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="car_base" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="caster" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="gripper_active2_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="gripper_active_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="gripper_finger_base_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="gripper_servo_link" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="left_wheel" reason="User" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="right_wheel" reason="Default" />
+    <disable_collisions link1="arm_elbow_flex_servo_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="arm_shoulder_lift_link" reason="Adjacent" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="arm_shoulder_lift_servo_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="arm_shoulder_pan_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="arm_wrist_F3_0_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="arm_wrist_flex_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="arm_wrist_flex_servo_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="camera_mount" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="car_base" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="caster" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="gripper_active2_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="gripper_active_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="gripper_finger_base_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="gripper_servo_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="left_wheel" reason="User" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="right_wheel" reason="Default" />
+    <disable_collisions link1="arm_shoulder_F3_0_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_link" link2="arm_shoulder_lift_servo_link" reason="Adjacent" />
+    <disable_collisions link1="arm_shoulder_lift_link" link2="arm_shoulder_pan_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_link" link2="arm_wrist_F3_0_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_link" link2="arm_wrist_flex_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_link" link2="arm_wrist_flex_servo_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_link" link2="camera_mount" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_link" link2="car_base" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_link" link2="caster" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_link" link2="left_wheel" reason="User" />
+    <disable_collisions link1="arm_shoulder_lift_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_link" link2="right_wheel" reason="Default" />
+    <disable_collisions link1="arm_shoulder_lift_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_servo_link" link2="arm_shoulder_pan_link" reason="Adjacent" />
+    <disable_collisions link1="arm_shoulder_lift_servo_link" link2="arm_shoulder_pan_servo_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_servo_link" link2="arm_wrist_F3_0_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_servo_link" link2="arm_wrist_flex_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_servo_link" link2="arm_wrist_flex_servo_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_servo_link" link2="camera_mount" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_servo_link" link2="car_base" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_servo_link" link2="caster" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_servo_link" link2="left_wheel" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_servo_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_servo_link" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="arm_shoulder_lift_servo_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="arm_shoulder_pan_link" link2="arm_shoulder_pan_servo_link" reason="Adjacent" />
+    <disable_collisions link1="arm_shoulder_pan_link" link2="arm_wrist_flex_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_pan_link" link2="arm_wrist_flex_servo_link" reason="Never" />
+    <disable_collisions link1="arm_shoulder_pan_link" link2="camera_mount" reason="Never" />
+    <disable_collisions link1="arm_shoulder_pan_link" link2="car_base" reason="Never" />
+    <disable_collisions link1="arm_shoulder_pan_link" link2="caster" reason="Never" />
+    <disable_collisions link1="arm_shoulder_pan_link" link2="left_wheel" reason="Never" />
+    <disable_collisions link1="arm_shoulder_pan_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="arm_shoulder_pan_link" link2="right_wheel" reason="Never" />
+    <disable_collisions link1="arm_shoulder_pan_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="arm_shoulder_pan_servo_link" link2="camera_mount" reason="Never" />
+    <disable_collisions link1="arm_shoulder_pan_servo_link" link2="car_base" reason="Adjacent" />
+    <disable_collisions link1="arm_shoulder_pan_servo_link" link2="caster" reason="Never" />
+    <disable_collisions link1="arm_shoulder_pan_servo_link" link2="left_wheel" reason="User" />
+    <disable_collisions link1="arm_shoulder_pan_servo_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="arm_shoulder_pan_servo_link" link2="right_wheel" reason="User" />
+    <disable_collisions link1="arm_shoulder_pan_servo_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="arm_wrist_F3_0_link" link2="arm_wrist_flex_link" reason="Adjacent" />
+    <disable_collisions link1="arm_wrist_F3_0_link" link2="arm_wrist_flex_servo_link" reason="Never" />
+    <disable_collisions link1="arm_wrist_F3_0_link" link2="camera_mount" reason="Never" />
+    <disable_collisions link1="arm_wrist_F3_0_link" link2="caster" reason="Never" />
+    <disable_collisions link1="arm_wrist_F3_0_link" link2="gripper_active2_link" reason="Never" />
+    <disable_collisions link1="arm_wrist_F3_0_link" link2="gripper_active_link" reason="Never" />
+    <disable_collisions link1="arm_wrist_F3_0_link" link2="gripper_finger_base_link" reason="Never" />
+    <disable_collisions link1="arm_wrist_F3_0_link" link2="gripper_servo_link" reason="Adjacent" />
+    <disable_collisions link1="arm_wrist_F3_0_link" link2="left_wheel" reason="User" />
+    <disable_collisions link1="arm_wrist_F3_0_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="arm_wrist_F3_0_link" link2="right_wheel" reason="User" />
+    <disable_collisions link1="arm_wrist_F3_0_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_link" link2="arm_wrist_flex_servo_link" reason="Adjacent" />
+    <disable_collisions link1="arm_wrist_flex_link" link2="camera_mount" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_link" link2="caster" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_link" link2="gripper_active2_link" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_link" link2="gripper_active_link" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_link" link2="gripper_finger_base_link" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_link" link2="gripper_servo_link" reason="Always" />
+    <disable_collisions link1="arm_wrist_flex_link" link2="left_wheel" reason="Default" />
+    <disable_collisions link1="arm_wrist_flex_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_link" link2="right_wheel" reason="User" />
+    <disable_collisions link1="arm_wrist_flex_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_servo_link" link2="camera_mount" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_servo_link" link2="caster" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_servo_link" link2="gripper_active2_link" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_servo_link" link2="gripper_active_link" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_servo_link" link2="gripper_finger_base_link" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_servo_link" link2="gripper_servo_link" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_servo_link" link2="left_wheel" reason="User" />
+    <disable_collisions link1="arm_wrist_flex_servo_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="arm_wrist_flex_servo_link" link2="right_wheel" reason="Default" />
+    <disable_collisions link1="arm_wrist_flex_servo_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="camera_mount" link2="car_base" reason="Adjacent" />
+    <disable_collisions link1="camera_mount" link2="caster" reason="Never" />
+    <disable_collisions link1="camera_mount" link2="left_wheel" reason="User" />
+    <disable_collisions link1="camera_mount" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="camera_mount" link2="right_wheel" reason="User" />
+    <disable_collisions link1="camera_mount" link2="sr300" reason="Never" />
+    <disable_collisions link1="camera_mount" link2="sticker" reason="Default" />
+    <disable_collisions link1="camera_mount" link2="sticker_base" reason="User" />
+    <disable_collisions link1="camera_mount" link2="sticker_base_1" reason="User" />
+    <disable_collisions link1="camera_mount" link2="sticker_base_2" reason="User" />
+    <disable_collisions link1="camera_mount" link2="sticker_base_3" reason="User" />
+    <disable_collisions link1="car_base" link2="caster" reason="Adjacent" />
+    <disable_collisions link1="car_base" link2="left_wheel" reason="Adjacent" />
+    <disable_collisions link1="car_base" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="car_base" link2="right_wheel" reason="Adjacent" />
+    <disable_collisions link1="car_base" link2="sr300" reason="Never" />
+    <disable_collisions link1="car_base" link2="sticker" reason="Adjacent" />
+    <disable_collisions link1="car_base" link2="sticker_base" reason="User" />
+    <disable_collisions link1="car_base" link2="sticker_base_1" reason="User" />
+    <disable_collisions link1="car_base" link2="sticker_base_2" reason="User" />
+    <disable_collisions link1="car_base" link2="sticker_base_3" reason="User" />
+    <disable_collisions link1="caster" link2="gripper_active2_link" reason="User" />
+    <disable_collisions link1="caster" link2="gripper_active_link" reason="User" />
+    <disable_collisions link1="caster" link2="gripper_finger_base_link" reason="User" />
+    <disable_collisions link1="caster" link2="gripper_servo_link" reason="User" />
+    <disable_collisions link1="caster" link2="left_wheel" reason="Always" />
+    <disable_collisions link1="caster" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="caster" link2="right_wheel" reason="Always" />
+    <disable_collisions link1="caster" link2="sr300" reason="Never" />
+    <disable_collisions link1="caster" link2="sticker" reason="Never" />
+    <disable_collisions link1="caster" link2="sticker_base" reason="User" />
+    <disable_collisions link1="caster" link2="sticker_base_1" reason="User" />
+    <disable_collisions link1="caster" link2="sticker_base_2" reason="User" />
+    <disable_collisions link1="caster" link2="sticker_base_3" reason="User" />
+    <disable_collisions link1="gripper_active2_link" link2="gripper_active_link" reason="Default" />
+    <disable_collisions link1="gripper_active2_link" link2="gripper_finger_base_link" reason="Default" />
+    <disable_collisions link1="gripper_active2_link" link2="gripper_servo_link" reason="Adjacent" />
+    <disable_collisions link1="gripper_active2_link" link2="left_wheel" reason="User" />
+    <disable_collisions link1="gripper_active2_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="gripper_active2_link" link2="right_wheel" reason="User" />
+    <disable_collisions link1="gripper_active2_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="gripper_active_link" link2="gripper_finger_base_link" reason="Default" />
+    <disable_collisions link1="gripper_active_link" link2="gripper_servo_link" reason="Adjacent" />
+    <disable_collisions link1="gripper_active_link" link2="left_wheel" reason="User" />
+    <disable_collisions link1="gripper_active_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="gripper_active_link" link2="right_wheel" reason="User" />
+    <disable_collisions link1="gripper_active_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="gripper_finger_base_link" link2="gripper_servo_link" reason="Adjacent" />
+    <disable_collisions link1="gripper_finger_base_link" link2="left_wheel" reason="User" />
+    <disable_collisions link1="gripper_finger_base_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="gripper_finger_base_link" link2="right_wheel" reason="User" />
+    <disable_collisions link1="gripper_finger_base_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="gripper_servo_link" link2="left_wheel" reason="User" />
+    <disable_collisions link1="gripper_servo_link" link2="pi_camera" reason="Never" />
+    <disable_collisions link1="gripper_servo_link" link2="right_wheel" reason="User" />
+    <disable_collisions link1="gripper_servo_link" link2="sr300" reason="Never" />
+    <disable_collisions link1="left_wheel" link2="pi_camera" reason="User" />
+    <disable_collisions link1="left_wheel" link2="right_wheel" reason="Default" />
+    <disable_collisions link1="left_wheel" link2="sr300" reason="User" />
+    <disable_collisions link1="left_wheel" link2="sticker" reason="Always" />
+    <disable_collisions link1="left_wheel" link2="sticker_base" reason="User" />
+    <disable_collisions link1="left_wheel" link2="sticker_base_1" reason="User" />
+    <disable_collisions link1="left_wheel" link2="sticker_base_2" reason="User" />
+    <disable_collisions link1="left_wheel" link2="sticker_base_3" reason="User" />
+    <disable_collisions link1="pi_camera" link2="right_wheel" reason="User" />
+    <disable_collisions link1="pi_camera" link2="sr300" reason="Never" />
+    <disable_collisions link1="pi_camera" link2="sticker" reason="Never" />
+    <disable_collisions link1="pi_camera" link2="sticker_base" reason="User" />
+    <disable_collisions link1="pi_camera" link2="sticker_base_1" reason="User" />
+    <disable_collisions link1="pi_camera" link2="sticker_base_2" reason="User" />
+    <disable_collisions link1="pi_camera" link2="sticker_base_3" reason="User" />
+    <disable_collisions link1="right_wheel" link2="sr300" reason="User" />
+    <disable_collisions link1="right_wheel" link2="sticker" reason="Always" />
+    <disable_collisions link1="right_wheel" link2="sticker_base" reason="User" />
+    <disable_collisions link1="right_wheel" link2="sticker_base_1" reason="User" />
+    <disable_collisions link1="right_wheel" link2="sticker_base_2" reason="User" />
+    <disable_collisions link1="right_wheel" link2="sticker_base_3" reason="User" />
+    <disable_collisions link1="sr300" link2="sticker" reason="Default" />
+    <disable_collisions link1="sr300" link2="sticker_base" reason="User" />
+    <disable_collisions link1="sr300" link2="sticker_base_1" reason="User" />
+    <disable_collisions link1="sr300" link2="sticker_base_2" reason="User" />
+    <disable_collisions link1="sr300" link2="sticker_base_3" reason="User" />
+    <disable_collisions link1="sticker" link2="sticker_base" reason="User" />
+    <disable_collisions link1="sticker" link2="sticker_base_1" reason="User" />
+    <disable_collisions link1="sticker" link2="sticker_base_2" reason="User" />
+    <disable_collisions link1="sticker" link2="sticker_base_3" reason="User" />
+    <disable_collisions link1="sticker_base" link2="sticker_base_1" reason="User" />
+    <disable_collisions link1="sticker_base" link2="sticker_base_2" reason="User" />
+    <disable_collisions link1="sticker_base" link2="sticker_base_3" reason="User" />
+    <disable_collisions link1="sticker_base_1" link2="sticker_base_2" reason="User" />
+    <disable_collisions link1="sticker_base_1" link2="sticker_base_3" reason="User" />
+    <disable_collisions link1="sticker_base_2" link2="sticker_base_3" reason="User" />
+</robot>

@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<launch>
+  <include  file="$(find sis_arm_bringup)/launch/arm.launch"/>
+
+  <node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen" > 
+    <param name="port" value="/dev/ttyACM0" />
+<!--     <param name="baud" value="9600" /> -->
+  </node>
+<!--   <node name="sis_arm_pick_and_place_action" pkg="action_server" type="sis_arm_pick_and_place_action.py" respawn="false" output="screen" />
+  <node name="pick_and_place_server" pkg="action_server" type="pick_and_place_server.py" respawn="false" output="screen" />
+  
+ -->
+</launch>

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<robot name="macros" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:property name="pi" value="3.14159265359" />
+    <xacro:property name="tile_thickness" value="0.01" />
+
+    <!-- Defines a tile link and joint-->
+    <xacro:macro name="tile" params="x y rotation:=0 visible:=true">
+        <link name="tile">
+            <xacro:if value="${visible}" >
+                <visual>
+                    <origin xyz="-1.8 -1.5 ${-tile_thickness}"/>
+                    <geometry>
+                        <mesh filename="package://sis_arm_planning/map/urdf/meshes/factory_map.dae" />
+                    </geometry>
+                </visual>
+            </xacro:if>
+        </link>
+
+        <joint name="world_to_tile" type="fixed">
+            <parent link="world" />
+            <child link="tile" />
+            <xacro:unless value="${rotation}" >
+                <origin xyz="${1.5 - x*0.6} ${1.2 - y*0.6} 0" rpy="0 0 ${rotation * pi/180}"/>
+            </xacro:unless>
+            <xacro:if value="${rotation}" >
+                <origin xyz="${1.2 - x*0.6} ${1.5 - y*0.6} 0" rpy="0 0 ${rotation * pi/180}"/>
+            </xacro:if>
+        </joint>
+    </xacro:macro>
+
+    <!-- Defines an april tag link and joint-->
+    <xacro:macro name="tag" params="id pos rotation">
+        <link name="tag_id_${id}">
+            <visual>
+                <origin xyz="-0.0254 -0.0254 0" />
+                <geometry>
+                    <mesh filename="package://sis_arm_planning/map/urdf/meshes/tags/tag_${id}.dae" />
+                </geometry>
+            </visual>
+        </link>
+
+        <joint name="world_to_tag_${id}" type="fixed">
+            <parent link="tile" />
+            <child link="tag_id_${id}" />
+            <origin xyz="${pos} 0" rpy="0 0 ${rotation * pi/180}"/>
+        </joint>
+    </xacro:macro>
+</robot>

@@ -1,0 +1,407 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="kaku">
+
+<material name="Gold">
+  <color rgba="1 0.87 0 1.0"/>
+</material>
+<material name="Wood">
+  <color rgba="0.87 0.72 0.53 1.0"/>
+  <!-- <color rgba="0.52 0.40 0.24 1.0"/> -->
+
+</material>
+<material name="Wood_dark">
+  <color rgba="0.87 0.72 0.53 1.0"/>
+  <!-- <color rgba="0.52 0.40 0.24 1.0"/> -->
+</material>
+<material name="Blue">
+  <color rgba="0 0 1 1.0"/>
+</material>
+
+
+<link name="car_base">
+    <visual>
+       <origin xyz="0 0 0.065" rpy="0 0 0"/>
+        <geometry>
+            <mesh scale="0.001 0.001 0.001" filename="package://sis_arm_description/urdf/model/meshes/car_base.stl"/>
+        </geometry>
+        <material name="Wood"/>
+    </visual>
+</link>
+
+<link name='caster'>
+    <visual>
+    <origin xyz="-0.07 0 0.033" rpy="0 0 3.14"/>
+    <geometry>
+        <mesh scale="0.001 0.001 0.001" filename="package://sis_arm_description/urdf/model/meshes/me212_robot_wheel.stl"/>
+        <!-- <mesh filename="package://sis_arm_description/urdf/model/meshes/me212_robot_wheel.stl"/> -->
+    </geometry>
+    <material name="Black"/>
+    </visual>
+</link>
+
+
+<joint name="caster_hinge" type="fixed">
+      <!-- <axis xyz="0 1 0"/> -->
+      <parent link="car_base"/>
+      <child link="caster"/>
+      <!-- <origin xyz="0.01 0.048 0.03" rpy="0 0 0"/> -->
+</joint>
+
+
+
+<link name="left_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://sis_arm_description/urdf/model/meshes/left_wheel.dae" />
+      </geometry>
+      <material name="Blue"/>
+    </visual>
+</link>
+
+<link name="right_wheel">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://sis_arm_description/urdf/model/meshes/right_wheel.dae" />
+      </geometry>
+      <material name="Blue"/>
+    </visual>
+</link>
+
+<joint name="left_wheel_hinge" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="8.0" lower="-100000" upper="100000" velocity="10"/>
+  <parent link="car_base"/>
+  <child link="left_wheel"/>
+  <origin xyz="0.035 0.09 0.03" rpy="0 0 0"/>
+</joint>
+
+<joint name="right_wheel_hinge" type="revolute">
+  <axis xyz="0 1 0"/>
+  <limit effort="8.0" lower="-100000" upper="100000" velocity="10"/>
+  <parent link="car_base"/>
+  <child link="right_wheel"/>
+  <origin xyz=" 0.035 -0.09 0.03" rpy="0 0 0"/>
+</joint>
+
+
+<link name="sticker">
+  <visual>
+    <origin xyz="0 0 0.17" rpy="0 0 0"/>
+    <geometry>
+        <box size=".005 .005 .34"/>
+    </geometry>
+    <material name="Gold"/>
+  </visual>
+</link>
+
+<joint name="sticker_hinge" type="fixed">
+  <parent link="camera_mount"/>
+  <child link="sticker"/>
+  <origin rpy=" 0 0 0" xyz="0.01 0.05 0"/>
+</joint>
+
+<link name="sticker_1">
+  <visual>
+    <origin xyz="0 0 0.17" rpy="0 0 0"/>
+    <geometry>
+        <box size=".005 .005 .34"/>
+    </geometry>
+    <material name="Gold"/>
+  </visual>
+</link>
+
+<joint name="sticker_1_hinge" type="fixed">
+  <parent link="camera_mount"/>
+  <child link="sticker_1"/>
+  <origin rpy=" 0 0 0" xyz="0.01 -0.05 0"/>
+</joint>
+
+<link name="sticker_2">
+  <visual>
+    <origin xyz="0 0 0.17" rpy="0 0 0"/>
+    <geometry>
+        <box size=".005 .005 .34"/>
+    </geometry>
+    <material name="Gold"/>
+  </visual>
+</link>
+
+<joint name="sticker_2_hinge" type="fixed">
+  <parent link="camera_mount"/>
+  <child link="sticker_2"/>
+  <origin rpy=" 0 0 0" xyz="0.05 0.05 0"/>
+</joint>
+
+<link name="sticker_3">
+  <visual>
+    <origin xyz="0 0 0.17" rpy="0 0 0"/>
+    <geometry>
+        <box size=".005 .005 .34"/>
+    </geometry>
+    <material name="Gold"/>
+  </visual>
+</link>
+
+<joint name="sticker_3_hinge" type="fixed">
+  <parent link="camera_mount"/>
+  <child link="sticker_3"/>
+  <origin rpy=" 0 0 0" xyz="0.05 -0.05 0"/>
+</joint>
+
+
+
+<link name="sticker_base">
+  <visual>
+    <origin xyz="0 0 -0.044" rpy="0 0 0"/>
+    <geometry>
+        <box size=".005 .005 .088"/>
+    </geometry>
+    <material name="Gold"/>
+  </visual>
+</link>
+
+<joint name="sticker_base_hinge" type="fixed">
+  <parent link="camera_mount"/>
+  <child link="sticker_base"/>
+  <origin rpy=" 0 0 0" xyz="0.01 0.09 0"/>
+</joint>
+
+<link name="sticker_base_1">
+  <visual>
+    <origin xyz="0 0 -0.044" rpy="0 0 0"/>
+    <geometry>
+        <box size=".005 .005 .088"/>
+    </geometry>
+    <material name="Gold"/>
+  </visual>
+</link>
+
+<joint name="sticker_base_1_hinge" type="fixed">
+  <parent link="camera_mount"/>
+  <child link="sticker_base_1"/>
+  <origin rpy=" 0 0 0" xyz="0.01 -0.09 0"/>
+</joint>
+
+<link name="sticker_base_2">
+  <visual>
+    <origin xyz="0 0 -0.044" rpy="0 0 0"/>
+    <geometry>
+        <box size=".005 .005 .088"/>
+    </geometry>
+    <material name="Gold"/>
+  </visual>
+</link>
+
+<joint name="sticker_base_2_hinge" type="fixed">
+  <parent link="camera_mount"/>
+  <child link="sticker_base_2"/>
+  <origin rpy=" 0 0 0" xyz="0.08 0.09 0"/>
+</joint>
+
+<link name="sticker_base_3">
+  <visual>
+    <origin xyz="0 0 -0.044" rpy="0 0 0"/>
+    <geometry>
+        <box size=".005 .005 .088"/>
+    </geometry>
+    <material name="Gold"/>
+  </visual>
+</link>
+
+<joint name="sticker_base_3_hinge" type="fixed">
+  <parent link="camera_mount"/>
+  <child link="sticker_base_3"/>
+  <origin rpy=" 0 0 0" xyz="0.08 -0.09 0"/>
+</joint>
+
+
+
+<link name='camera_mount'>
+    <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+        <mesh scale="0.001 0.001 0.001" filename="package://sis_arm_description/urdf/model/meshes/car_level.stl"/>
+    </geometry>
+    <material name="Wood_dark"/>
+    </visual>
+</link>
+
+
+<joint name="camera_mount_hinge" type="fixed">
+      <!-- <axis xyz="0 1 0"/> -->
+      <parent link="car_base"/>
+      <child link="camera_mount"/>
+      <origin xyz="-0.09 0 0.163" rpy="0 0 0"/>
+</joint>
+
+<link name='camera_mount_1'>
+    <visual>
+    <origin xyz="0 0 0.0015" rpy="0 0 1.57"/>
+    <geometry>
+        <mesh scale="0.001 0.001 0.001" filename="package://sis_arm_description/urdf/model/meshes/camera_base.stl"/>
+    </geometry>
+    <material name="Black"/>
+    </visual>
+</link>
+
+
+<joint name="camera_mount_1_hinge" type="fixed">
+      <!-- <axis xyz="0 1 0"/> -->
+      <parent link="camera_mount"/>
+      <child link="camera_mount_1"/>
+      <origin xyz="0.03 0 0.106" rpy="0 0 0"/>
+</joint>
+
+
+<link name='camera_mount_2'>
+    <visual>
+    <origin xyz="0 0 0.0015" rpy="0 0 1.57"/>
+    <geometry>
+        <mesh scale="0.0008 0.0008 0.0008" filename="package://sis_arm_description/urdf/model/meshes/camera_base.stl"/>
+    </geometry>
+    <material name="Black"/>
+    </visual>
+</link>
+
+
+<joint name="camera_mount_2_hinge" type="fixed">
+      <!-- <axis xyz="0 1 0"/> -->
+      <parent link="camera_mount_1"/>
+      <child link="camera_mount_2"/>
+      <origin xyz="0 0 0.078" rpy="0 0 0"/>
+</joint>
+
+<link name='camera_mount_3'>
+    <visual>
+    <origin xyz="0 0 0.015" rpy="0 0 1.57"/>
+    <geometry>
+        <mesh scale="0.001 0.001 0.001" filename="package://sis_arm_description/urdf/model/meshes/camera_base.stl"/>
+    </geometry>
+    <material name="Black"/>
+    </visual>
+</link>
+
+
+<joint name="camera_mount_3_hinge" type="fixed">
+      <!-- <axis xyz="0 1 0"/> -->
+      <parent link="camera_mount_2"/>
+      <child link="camera_mount_3"/>
+      <origin xyz="0 0 0.078" rpy="0 0 0"/>
+</joint>
+
+
+<link name='camera_mount_4'>
+    <visual>
+    <origin xyz="0 0 0.0015" rpy="0 0 1.57"/>
+    <geometry>
+        <mesh scale="0.001 0.001 0.001" filename="package://sis_arm_description/urdf/model/meshes/camera_base.stl"/>
+    </geometry>
+    <material name="Black"/>
+    </visual>
+</link>
+
+
+<joint name="camera_mount_4_hinge" type="fixed">
+      <!-- <axis xyz="0 1 0"/> -->
+      <parent link="camera_mount_3"/>
+      <child link="camera_mount_4"/>
+      <origin xyz="0 0 0.078" rpy="0 0 0"/>
+</joint>
+
+
+<link name='sr300'>
+    <visual>
+    <origin xyz="0 0 -0.02" rpy="0 0 1.57"/>
+    <geometry>
+        <mesh scale="0.001 0.001 0.001" filename="package://sis_arm_description/urdf/model/meshes/realsense.stl"/>
+    </geometry>
+    <material name="White"/>
+    </visual>
+</link>
+
+
+<joint name="sr300_hinge" type="fixed">
+      <!-- <axis xyz="0 1 0"/> -->
+      <parent link="camera_mount_4"/>
+      <child link="sr300"/>
+      <origin xyz="0 0 0" rpy="0 0 -1.57"/>
+</joint>
+
+
+
+<link name='pi_camera'>
+    <visual>
+    <origin xyz="0.018 0 0" rpy="0 0 0"/>
+    <geometry>
+        <mesh scale="0.0009 0.0009 0.0009" filename="package://sis_arm_description/urdf/model/meshes/CameraPanTiltAssy.stl"/>
+    </geometry>
+    <material name="White"/>
+    </visual>
+</link>
+
+
+<joint name="pi_camera_hinge" type="fixed">
+      <!-- <axis xyz="0 1 0"/> -->
+      <parent link="camera_mount_2"/>
+      <child link="pi_camera"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+</joint>
+
+<joint name="arm_to_car" type="fixed">
+      <!-- <axis xyz="0 1 0"/> -->
+      <parent link="car_base"/>
+      <child link="base_link"/>
+      <origin xyz="0.085 0 0.068" rpy="0 0 0"/>
+</joint>
+
+
+<!-- <link name='arm_base'>
+    <visual>
+    <origin xyz="0.018 0 0.015" rpy="0 0 0"/>
+    <geometry>
+        <mesh scale="0.001 0.001 0.001" filename="package://sis_arm_description/urdf/model/meshes/arm_base_1.stl"/>
+    </geometry>
+    </visual>
+</link>
+
+
+<joint name="arm_base_hinge" type="fixed">
+      <parent link="car_base"/>
+      <child link="arm_base"/>
+      <origin xyz="0 0 0.12" rpy="0 0 0"/>
+</joint>
+ -->
+    <!-- We can configure joints velocity limit and lower/upper limits
+          to allow access to different operational areas, e.g. left handed vs. right handed robot -->
+    <xacro:property name="joints_vlimit" value="1.571"/>
+    <xacro:property name="pan_llimit" value="-2.617"/>
+    <xacro:property name="pan_ulimit" value="2.617"/>
+    <xacro:property name="shoulder_llimit" value="-2.2"/>
+    <xacro:property name="shoulder_ulimit" value="2.16"/>
+    <xacro:property name="elbow_llimit" value="-2.42"/>
+    <xacro:property name="elbow_ulimit" value="2.38"/>
+    <xacro:property name="wrist_llimit" value="-1.72"/>
+    <xacro:property name="wrist_ulimit" value="1.68"/>
+
+    <!-- Included URDF Files -->
+    
+     <!-- Pincher arm is same as Turtlebot -->
+    <xacro:include filename="$(find sis_arm_description)/urdf/phantomx_arm.xacro"/>
+    
+    <!-- As we don't have here a turtlebot base, add a base_link link as its location reference -->
+    <link name="base_link"/>
+
+    <!-- Phantomx arm macro -->
+    <phantomx_arm parent="base_link" color="White" gripper_color="Black"   pincher_gripper="true">
+      <!-- Place the "floating" arm at the location it should be if mounted on a turtlebot,
+           as pick and place and other demos assume this location -->
+      <!-- <origin xyz="0.1 0.03 0.435"/> -->
+      <origin xyz="0 0 0.019"/>
+    </phantomx_arm>
+
+
+
+
+</robot>

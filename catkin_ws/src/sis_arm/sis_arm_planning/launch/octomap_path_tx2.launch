@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<launch>
+  <include file="$(find sis_arm_planning)/launch/sr300.launch"/>
+  
+  <include file="$(find pc_perception)/launch/octomap_path_finding.launch"/>
+
+</launch>

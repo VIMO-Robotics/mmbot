@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<launch>
+    <arg name="pkg_name" value="image_proc"/>
+    <arg name="node_name" default="image_proc_node"/>
+
+    <group ns="pi_camera">
+        <node name="$(arg node_name)" pkg="$(arg pkg_name)" type="$(arg pkg_name)" output="screen">
+        </node>
+    </group>
+</launch>

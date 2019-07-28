@@ -1,0 +1,11 @@
+# Define the goal
+int32 mode
+int32[] color_order
+int32 classifier_num
+int32 size_index
+---
+# Define the result
+bool state
+---
+# Define a feedback message
+int32 index

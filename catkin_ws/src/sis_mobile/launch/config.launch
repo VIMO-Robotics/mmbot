@@ -1,0 +1,33 @@
+<!-- -*- XML -*- -->
+<launch>
+  <arg name="port" default="/dev/ttyACM0"/>
+  <arg name="mecanum" default="false"/>
+  <arg name="x" default="0.75" doc="robot start pose x w.r.t map"/>
+  <arg name="y" default="0.91" doc="robot start pose y w.r.t map"/>
+  <arg name="th" default="3.14" doc="robot start pose yaw w.r.t. map"/>
+  <arg name="car_id" doc="car tx2 id"/>
+  <!-- Include all nodes related to the setup of mobile platform -->
+  <!-- Static transform -->
+  <include file="$(find sis_mobile)/launch/static_transform.launch">
+    <arg name="mecanum" value="$(arg mecanum)"/>
+    <arg name="x" value="$(arg x)"/>
+    <arg name="y" value="$(arg y)"/>
+    <arg name="th" value="$(arg th)"/>
+    <arg name="car_id" value="$(arg car_id)"/>
+  </include>
+  <!-- Robot controller -->
+  <include file="$(find sis_mobile)/launch/controller.launch">
+    <arg name="port" value="$(arg port)"/>
+    <arg name="mecanum" value="$(arg mecanum)"/>
+  </include>
+  <!-- Localization -->
+  <!--include file="$(find sis_mobile)/launch/localization.launch" if="$(arg use_loc)"/-->
+  <!-- Camera -->
+  <include file="$(find sis_mobile)/launch/raspicam.launch"/>
+  <!-- Apriltag -->
+  <!--include file="$(find sis_mobile)/launch/apriltags.launch"/-->
+  <!-- Map server -->
+  <include file="$(find sis_mobile)/launch/map.launch"/>
+  <!-- Dynamixel setup -->
+  <include file="$(find sis_arm_bringup)/launch/arm.launch"/>
+</launch>

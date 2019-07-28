@@ -1,0 +1,9 @@
+# Define the goal
+int32 ws_id
+int32 mode
+---
+# Define the result
+bool state
+---
+# Define a feedback message
+float32 dist

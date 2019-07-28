@@ -1,0 +1,6 @@
+<launch>
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_se" clear_params="true" output="screen">
+    <rosparam command="load" file="$(find sis_mobile)/config/localization/robot_ekf_config.yaml"/>
+    <remap from="odometry/filtered" to="odom"/>
+  </node>
+</launch>

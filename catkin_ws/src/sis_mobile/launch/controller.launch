@@ -1,0 +1,14 @@
+<!-- -*- XML -*- -->
+<launch>
+  <arg name="port" default="/dev/ttyACM0" doc="Arduino serial port"/>
+  <arg name="mecanum" default="false" doc="True if use mecanum wheel"/>
+  <!-- Broadcast transform from odom to car_base -->
+  <node pkg="sis_mobile" unless="$(arg mecanum)" type="pid_controller.py" name="pid_controller" output="screen">
+    <param name="port" value="$(arg port)"/>
+  </node>
+  <node pkg="sis_mobile" if="$(arg mecanum)" type="sw_pid_controller.py" name="sw_pid_controller" output="screen">
+    <param name="port" value="$(arg port)"/>
+  </node>
+  <!-- Pose from apriltags node -->
+  <node pkg="sis_mobile" type="pose_from_tags" name="pose_from_tags"/>
+</launch>

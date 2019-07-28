@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<launch>
+	<node name="pi_camera" pkg="pi_camera" type="camera_node_sequence.py" output="screen" clear_params="true" required="true">
+		<rosparam command="load" file="$(find pi_camera)/config/camera_node.yaml"/>
+	</node>
+</launch>

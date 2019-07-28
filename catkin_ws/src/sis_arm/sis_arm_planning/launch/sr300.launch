@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+  <include  file="$(find realsense2_camera)/launch/rs_rgbd.launch"/>
+
+  <node name="camear_to_world" pkg="tf" type="static_transform_publisher" args="-0.075 -0.01  0.47 0 0.94 0.04 base_link camera_link 10" respawn="true" output="screen" /> 
+
+</launch>

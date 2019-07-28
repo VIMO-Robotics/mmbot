@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<launch>
+  <include  file="$(find dagu_car)/launch/car_base.launch"/>
+
+  <node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen" > 
+    <param name="port" value="/dev/ttyACM0" />
+<!--     <param name="baud" value="9600" /> -->
+  </node> 
+
+  <node name="pure_pursuit_action_server" pkg="action_server" type="pure_pursuit_action_server.py" respawn="false" output="screen" >
+    <param name="action_state" value="1" />
+  </node>
+
+</launch>

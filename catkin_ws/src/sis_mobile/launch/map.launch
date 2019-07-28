@@ -1,0 +1,4 @@
+<launch>
+  <arg name="map_file_name" default="sis_competition_map.yaml" />
+  <node pkg="map_server" name="map_server" type="map_server" args="$(find sis_mobile)/config/map/$(arg map_file_name)" output="screen" clear_params="true"/>
+</launch>

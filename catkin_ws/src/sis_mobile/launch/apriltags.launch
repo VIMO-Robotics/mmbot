@@ -1,0 +1,7 @@
+<launch>
+  <include file="$(find apriltags2_ros)/launch/continuous_detection.launch">
+    <arg name="camera_name" value="raspicam_node"/>
+    <arg name="camera_frame" value="pi_camera"/>
+    <arg name="image_topic" value="image"/>
+  </include>
+</launch>

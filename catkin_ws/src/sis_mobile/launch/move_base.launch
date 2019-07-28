@@ -1,0 +1,23 @@
+<!-- -*- XML -*- -->
+<launch>
+  <arg name="mecanum" default="false" doc="True if use mecanum wheel"/>
+  <arg name="use_loc"/>
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" clear_params="true">
+    <rosparam if="$(arg mecanum)">
+      base_local_planner: dwa_local_planner/DWAPlannerROS
+    </rosparam>
+    <rosparam unless="$(arg mecanum)">
+      base_local_planner: base_local_planner/TrajectoryPlannerROS
+    </rosparam>
+    <rosparam file="$(find sis_mobile)/config/move_base/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find sis_mobile)/config/move_base/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find sis_mobile)/config/move_base/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find sis_mobile)/config/move_base/local_costmap_params.yaml"  command="load" />
+    <rosparam unless="$(arg mecanum)" file="$(find sis_mobile)/config/move_base/base_local_planner_params.yaml" command="load" />
+    <rosparam if="$(arg mecanum)" file="$(find sis_mobile)/config/move_base/sw_base_local_planner_params.yaml" command="load" />
+    <param name="controller_frequency" value="4.0" unless="$(arg mecanum)"/>
+    <param name="controller_frequency" value="1.5" if="$(arg mecanum)"/>
+    <!--param name="recovery_behavior_enabled" value="false"/-->
+    <remap from="odom" to="wheel_odom" unless="$(arg use_loc)"/>
+  </node>
+</launch>

@@ -1,0 +1,10 @@
+# Define the goal
+bool start
+---
+# Define the result
+geometry_msgs/PoseArray block_pose
+int32[] color_id
+
+---
+# Define a feedback message
+int32 index

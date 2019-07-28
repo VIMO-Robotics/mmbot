@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<launch>
+  <include file="$(find sis_arm_planning)/launch/apriltags2.launch"/>
+
+  <node name="isam_odom_apriltags" pkg="isam" type="isam_odom_apriltags" respawn="false" output="screen" />
+
+</launch>

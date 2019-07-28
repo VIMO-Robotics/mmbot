@@ -1,0 +1,18 @@
+<launch>
+  <arg name="x" default="1.0"/>
+  <arg name="y" default="0.9"/>
+  <arg name="th" default="0.0"/>
+  <arg name="mecanum" default="false"/>
+  <arg name="car_id"/>
+  <arg name="use_move_base" default="false"/>
+  <include file="$(find sis_mobile)/launch/config.launch">
+    <arg name="x" value="$(arg x)"/>
+    <arg name="y" value="$(arg y)"/>
+    <arg name="th" value="$(arg th)"/>
+    <arg name="mecanum" value="$(arg mecanum)"/>
+    <arg name="car_id" value="$(arg car_id)"/>
+  </include>
+  <include file="$(find sis_mobile)/launch/move_base.launch" if="$(arg use_move_base)">
+    <arg name="mecanum" value="$(arg mecanum)"/>
+  </include>
+</launch>

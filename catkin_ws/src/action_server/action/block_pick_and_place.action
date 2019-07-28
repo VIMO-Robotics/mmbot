@@ -1,0 +1,11 @@
+# Define the goal
+int32 mode
+geometry_msgs/PoseStamped[] pick_pose
+geometry_msgs/PoseStamped[] place_pose
+float32 object_size
+---
+# Define the result
+bool state
+---
+# Define a feedback message
+int32 index

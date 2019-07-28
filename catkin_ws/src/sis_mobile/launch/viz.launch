@@ -1,0 +1,10 @@
+<!-- -*- XML -*- -->
+<launch>
+  <arg name="model" default="$(find sis_arm_description)/urdf/model/kaku.urdf" doc="robot model URDF"/>
+  <param name="robot_description" command="$(find xacro)/xacro.py --inorder $(arg model)"/>
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher">
+    <param name="/use_gui" value="true"/>
+  </node>
+  <node pkg="robot_state_publisher" name="robot_state_publisher" type="state_publisher"/>
+  <node pkg="rviz" name="rviz" type="rviz"/>
+</launch>

@@ -1,0 +1,9 @@
+# Define the goal
+action_server/Point2D target_point
+---
+# Define the result
+bool state
+geometry_msgs/Point odom
+---
+# Define a feedback message
+float32 dist

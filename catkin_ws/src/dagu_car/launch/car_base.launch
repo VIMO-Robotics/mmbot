@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<launch>
+    <node pkg="dagu_car" type="wheels_driver_node.py" name="wheels_driver_node" output="screen" clear_params="true" required="true"/>
+    <node pkg="dagu_car" type="inverse_kinematics_node.py" name="inverse_kinematics_node" output="screen" clear_params="true" required="true"/>
+    <include file="$(find joy_mapper)/launch/joy_node.launch"/>
+    <include file="$(find joy_mapper)/launch/joy_mapper_node.launch"/>
+</launch>

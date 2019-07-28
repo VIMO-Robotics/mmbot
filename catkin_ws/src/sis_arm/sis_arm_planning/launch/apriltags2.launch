@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+    <include  file="$(find apriltags2_ros)/launch/continuous_detection.launch">
+    	<arg name="camera_name" value="/sync" />
+        <arg name="camera_frame" default="pi_camera" />
+    </include>
+    <node name="apriltags2_sync" pkg="sis_arm_planning" type="sync.py" respawn="false" output="screen" />  
+</launch>

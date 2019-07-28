@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<launch>
+    <arg name="pkg_name" value="pi_camera"/>
+    <arg name="node_name" default="decoder_node"/>
+
+    <group ns="pi_camera">
+        <node pkg="$(arg pkg_name)" type="$(arg node_name).py" name="$(arg node_name)" output="screen" clear_params="true" required="true">
+            <rosparam command="load" file="$(find pi_camera)/config/decoder_node.yaml"/>
+        </node>
+    </group>
+
+
+</launch>

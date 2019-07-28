@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: sis_arm_description
+    relative_path: urdf/model/kaku.urdf
+  SRDF:
+    relative_path: config/kaku.srdf
+  CONFIG:
+    author_name: kuo
+    author_email: c722996@gmail.com
+    generated_timestamp: 1528432448
