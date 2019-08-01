@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <node name="parking_service_node" pkg="robot_navigation" type="parking_service.py" output="screen"/>
+
+</launch>
