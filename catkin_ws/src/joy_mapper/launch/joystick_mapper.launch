@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+
+<launch>
+	<arg name="pkg_name" value="joy_mapper"/>
+	<arg name="node_name" default="joystick_mapper"/>
+		
+	<node pkg="$(arg pkg_name)" type="$(arg node_name).py" name="$(arg node_name)" output="screen" clear_params="true" required="true"/>
+</launch>
