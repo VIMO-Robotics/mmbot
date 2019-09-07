@@ -3,73 +3,86 @@
  * reckoning, for usage of differential-drive mobile robot.
  * Developed by Sean Lu at Nov., 2018. 
  */
-#define SPD_INT_L2 8
-#define SPD_INT_R2 9
-#define RADIUS 0.032 // Wheel radius, in meter
+ 
+/*
+ * L1, R1, L2, R2 stand for 
+ * left front, right front, left back and right back motor
+ * L1 and R1 for differential drive
+ * L1, R1, L2 and R2 for m drive
+ */
+// Motor direction output pin
+#define MOTOR_DIR_L1 34
+#define MOTOR_DIR_L2 35
+#define MOTOR_DIR_R1 36
+#define MOTOR_DIR_R2 37
+// PWM output for motor control
+#define MOTOR_PWM_L1 8
+#define MOTOR_PWM_L2 9
+#define MOTOR_PWM_R1 12
+#define MOTOR_PWM_R2 13
+// For external interrupt pin
+#define MOTOR_ENCODER_L1 18
+#define MOTOR_ENCODER_L2 19
+#define MOTOR_ENCODER_R1 20
+#define MOTOR_ENCODER_R2 21
 #define CPR 2970.0   // Encoder Counts Per Revolution
-#define WIDTH 0.172 // Two wheel distance, in meter
-// Kuo's one 0.179
 
-volatile long encoder_pre_L, encoder_pre_R; // present
-volatile long encoder_pos_L, encoder_pos_R; // post
+volatile long encoder_pos_L1, encoder_pos_R1; // post
 long time_;
 double hz = 70; // 70Hz
-double theta = 0; // heading, in rad
+char rcv_char;
+String rcv_str = ""; // Serial input string
+bool dir_L1, dir_R1; // Direction of motor (true -> forward | false -> backward)
 
 void setup()
 {
-  pinMode(SPD_INT_L2, INPUT);
-  pinMode(SPD_INT_R2, INPUT);
-  encoder_pre_L = 0; encoder_pre_R = 0;
-  encoder_pos_L = 0; encoder_pos_R = 0;
-  Serial.begin(57600);
+  Serial.begin(9600);
+  pinMode(MOTOR_DIR_L1, OUTPUT);
+  pinMode(MOTOR_DIR_R1, OUTPUT);
+  encoder_pos_L1 = 0; encoder_pos_R1 = 0;
+  dir_L1 = true; dir_R1 = true;
+  analogWrite(MOTOR_PWM_L1, 0);
+  analogWrite(MOTOR_PWM_R1, 0);
   // Regist interrupt callback functions
-  // UNO pin 2, call Encoder_L when the signal is rising
-  attachInterrupt(0, Encoder_L, RISING);
-  // UNO pin 3, call Encoder_R when the signal is rising
-  attachInterrupt(1, Encoder_R, RISING);
+  attachInterrupt(digitalPinToInterrupt(MOTOR_ENCODER_L1), encoder_L1, RISING);
+  attachInterrupt(digitalPinToInterrupt(MOTOR_ENCODER_R1), encoder_R1, RISING);
   time_ = millis();
 }
 
 void loop()
 {
-  if(Serial.available() > 0) {
-    int _ = Serial.read();
-    theta = 0;
+  if (Serial.available()>0) {
+    rcv_char = Serial.read();
+    if (rcv_char != '\n'){
+      rcv_str += rcv_char;
+    }
+    else{
+      int pwm_l = rcv_str.toInt();
+      analogWrite(MOTOR_PWM_L1, pwm_l);
+      Serial.print("PWM: ");
+      Serial.print(pwm_l);
+      Serial.println();
+      rcv_str = "";
+    }
   }
   if(millis() - time_ >= 1000/hz) {
+    //analogWrite(3, 0);
     long dt = (millis() - time_); // Time difference, in ms
     time_ = millis(); // Update time
-    // Calculate distance two wheel traversed and linear velocity
-    double s_l = (encoder_pre_L - encoder_pos_L)*2*PI/CPR * RADIUS;
-    double s_r = (encoder_pre_R - encoder_pos_R)*2*PI/CPR * RADIUS;
-    double v_l = s_l / dt * 1000 * 100; // cm/s
-    double v_r = s_r / dt * 1000 * 100;
-    // Calculate heading
-    theta += (s_r - s_l) / WIDTH;
-    // In range [0, 2*PI)
-    if(theta >= 2*PI) theta -= 2*PI;
-    if(theta < 0) theta += 2*PI;
-    // Update encoder
-    encoder_pos_L = encoder_pre_L;
-    encoder_pos_R = encoder_pre_R;
-    // Print data in serial
-    // Data format:
-    // v_r v_l heading
-    Serial.print(v_r); Serial.print(" ");
-    Serial.print(v_l); Serial.print(" ");
-    Serial.println(theta*100); // Times 100
+    Serial.print(encoder_pos_L1); Serial.print(" ");
+    Serial.print(encoder_pos_R1); Serial.print(" ");
+    Serial.println("");
   }
 }
 
-void Encoder_L()
+void encoder_L1()
 {
-  if(digitalRead(SPD_INT_L2) == HIGH) {--encoder_pre_L;}
-  else {++encoder_pre_L;}
+  if(dir_L1){++encoder_pos_L1;}
+  else{--encoder_pos_L1;}
 }
 
-void Encoder_R()
+void encoder_R1()
 {
-  if(digitalRead(SPD_INT_R2) == HIGH) {--encoder_pre_R;}
-  else {++encoder_pre_R;}
+  if(dir_R1){++encoder_pos_R1;}
+  else{--encoder_pos_R1;}
 } 
