@@ -7,7 +7,7 @@
 #include <geometry_msgs/Twist.h>
 #include <nav_msgs/Odometry.h>
 #include "motor_control/motor_pwm.h"
-bool DEBUG = 1;
+bool DEBUG = 0;
 
 class vimo_velocity_controller {
  private:
@@ -64,7 +64,7 @@ class vimo_velocity_controller {
      if(!_pnh.getParam("freq", freq)) freq = 100.0;
      if(!_pnh.getParam("width", width)) width = 1.0; // FIXME
      if(!_pnh.getParam("radius", radius)) radius = 0.063; // FIXME
-     if(!_pnh.getParam("cpr", cpr)) cpr = 550.0; // FIXME
+     if(!_pnh.getParam("cpr", cpr)) cpr = 9000.0; // FIXME
      // Print parameter information
      ROS_INFO("[%s] pub_tf: %s", ros::this_node::getName().c_str(), (pub_tf==true?"true":"false"));
      ROS_INFO("[%s] port: %s", ros::this_node::getName().c_str(), port.c_str());
@@ -79,7 +79,7 @@ class vimo_velocity_controller {
      // PID controller related
      pid_l = PID::pid(255, -255); // max min
      pid_r = PID::pid(255, -255); 
-     std::vector<double> vec{50.0, 180.0, 0.05}; // FIXME
+     std::vector<double> vec{160.0, 120.0, 0.05}; // FIXME
      setPID(0, vec); setPID(1, vec); 
      // Open serial
      mySerial.setPort(port);
@@ -193,7 +193,7 @@ void vimo_velocity_controller::cbCmdVel(const geometry_msgs::Twist &msg){
          omega_desired = msg.angular.z,
          v_l_desired = v_desired - width/2*omega_desired,
          v_r_desired = v_desired + width/2*omega_desired;
-  std::cout << "vl_de: " << v_l_desired << " vr_de: " << v_r_desired << " vl: " << v_l << " vr: " << v_r << std::endl; 
+  if(DEBUG) std::cout << "vl_de: " << v_l_desired << " vr_de: " << v_r_desired << " vl: " << v_l << " vr: " << v_r << std::endl; 
 
   if(v_desired == 0.0 and omega_desired == 0.0) {
     pwm_l = pwm_r = 0; // Stop
@@ -217,6 +217,14 @@ void vimo_velocity_controller::cbCmdVel(const geometry_msgs::Twist &msg){
   pwm_msg.pwm_r = pwm_r;
   pwm_msg.pwm_l = pwm_l;
   pub_pwm.publish(pwm_msg);
+  std::string dir_l, dir_r;
+  if (pwm_l >= 0){dir_l = '1';}
+  else{dir_l = '0';}
+  if (pwm_r >= 0){dir_r = '1';}
+  else{dir_r = '0';}
+  std::string req = '#' + std::to_string(abs(pwm_l)) + '%' + std::to_string(abs(pwm_r)) + '%' + dir_l + '%' + dir_r + '%' + '\n';
+  size_t bytes_wrote = mySerial.write(req);
+  if(DEBUG) std::cout << pwm_r << ", " << pwm_l << std::endl;
 }
 
 /*
