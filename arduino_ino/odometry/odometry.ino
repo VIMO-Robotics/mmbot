@@ -25,7 +25,6 @@
 #define MOTOR_ENCODER_L2 19
 #define MOTOR_ENCODER_R1 20
 #define MOTOR_ENCODER_R2 21
-#define CPR 2970.0   // Encoder Counts Per Revolution
 
 volatile long encoder_pos_L1, encoder_pos_R1; // post
 long time_;
@@ -33,6 +32,9 @@ double hz = 70; // 70Hz
 char rcv_char;
 String rcv_str = ""; // Serial input string
 bool dir_L1, dir_R1; // Direction of motor (true -> forward | false -> backward)
+String temp_str;
+int count = 0;
+int msg[4] = {0, 0, 1, 1}; // Serial reading message: {pwm_L1, pwm_R1, dir_L1, dir_R1}
 
 void setup()
 {
@@ -57,21 +59,44 @@ void loop()
       rcv_str += rcv_char;
     }
     else{
-      int pwm_l = rcv_str.toInt();
-      analogWrite(MOTOR_PWM_L1, pwm_l);
-      Serial.print("PWM: ");
-      Serial.print(pwm_l);
-      Serial.println();
+      if (rcv_str[0] != '#' || rcv_str[rcv_str.length()-1] != '%'){ // wrong message
+        Serial.println("Wrong MSG!");
+        rcv_str = "";
+        return;
+       }
+      for (int i = 1; i < rcv_str.length(); ++i){
+        while (rcv_str[i] != '%'){
+          temp_str += rcv_str[i];
+          i++;
+        }
+        if (count < 4){
+          msg[count] = temp_str.toInt();
+          temp_str = "";
+          count++;
+        }
+      }
+      analogWrite(MOTOR_PWM_L1, msg[0]);
+      analogWrite(MOTOR_PWM_R1, msg[1]);
+      if (msg[2]==1){dir_L1 = true; digitalWrite(MOTOR_DIR_L1, HIGH);}
+      else {dir_L1 = false; digitalWrite(MOTOR_DIR_L1, LOW);}
+      if (msg[3]==1){dir_R1 = true; digitalWrite(MOTOR_DIR_R1, HIGH);}
+      else {dir_R1 = false; digitalWrite(MOTOR_DIR_R1, LOW);}
       rcv_str = "";
+      count = 0;
+      temp_str = "";
+      Serial.print(msg[0]); Serial.print(" ");
+      Serial.print(msg[1]); Serial.print(" ");
+      Serial.print(msg[2]); Serial.print(" ");
+      Serial.println(msg[3]);
     }
   }
   if(millis() - time_ >= 1000/hz) {
     //analogWrite(3, 0);
     long dt = (millis() - time_); // Time difference, in ms
     time_ = millis(); // Update time
-    Serial.print(encoder_pos_L1); Serial.print(" ");
-    Serial.print(encoder_pos_R1); Serial.print(" ");
-    Serial.println("");
+//    Serial.print(encoder_pos_L1); Serial.print(" ");
+//    Serial.print(encoder_pos_R1); Serial.print(" ");
+//    Serial.println("");
   }
 }
 
